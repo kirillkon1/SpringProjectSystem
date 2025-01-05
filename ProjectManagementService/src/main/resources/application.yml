@@ -12,10 +12,10 @@ spring:
       hibernate:
         format_sql: true
   application:
-    name: task-manager-service
+    name: project-manager-service
 
 server:
-  port: 8001
+  port: 8002
 
 management:
   endpoints:

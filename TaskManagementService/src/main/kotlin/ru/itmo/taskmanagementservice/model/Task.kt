@@ -3,7 +3,6 @@
 package ru.itmo.taskmanagementservice.model
 
 import jakarta.persistence.*
-import jakarta.validation.constraints.*
 import ru.itmo.domain.BaseEntity
 import java.time.LocalDateTime
 

@@ -12,7 +12,7 @@ interface ITaskService {
     /**
      * Создает новую задачу.
      *
-     * @param task задача, которую нужно создать
+     * @param dto DTO задача, которую нужно создать
      * @return созданная задача
      */
     fun createTask(dto: TaskDto): Task
@@ -29,7 +29,7 @@ interface ITaskService {
      * Обновляет существующую задачу по ее уникальному идентификатору.
      *
      * @param id уникальный идентификатор задачи, которую нужно обновить
-     * @param task задача с обновленными данными
+     * @param dto DTO задачи с обновленными данными
      * @return обновленная задача
      */
     fun updateTask(

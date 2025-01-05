@@ -7,16 +7,34 @@ services:
       - POSTGRES_DB=postgres
     ports:
       - "5432:5432"
-#    volumes:
+    volumes:
 #      - ./initdb:/docker-entrypoint-initdb.d
-#      - postgres_data:/var/lib/postgresql/data
+      - postgres_data:/var/lib/postgresql/data
     networks:
       - task-network
 
   task-manager-service:
     build: ./TaskManagementService
     ports:
-      - "8083:8083"
+      - "8001:8001"
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:postgresql://postgres:5432/postgres
+      SPRING_DATASOURCE_USERNAME: postgres
+      SPRING_DATASOURCE_PASSWORD: postgres
+    depends_on:
+      - postgres
+    networks:
+      - task-network
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "10m"
+        max-file: "3"
+
+  project-manager-service:
+    build: ./ProjectManagementService
+    ports:
+      - "8002:8002"
     environment:
       SPRING_DATASOURCE_URL: jdbc:postgresql://postgres:5432/postgres
       SPRING_DATASOURCE_USERNAME: postgres
@@ -89,7 +107,7 @@ services:
       - task-network
 
 volumes:
-  postgres-data:
+  postgres_data:
   elasticsearch-data:
 
 networks:
