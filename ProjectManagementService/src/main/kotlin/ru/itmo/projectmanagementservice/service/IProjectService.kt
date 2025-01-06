@@ -2,7 +2,7 @@
 
 package ru.itmo.projectmanagementservice.service
 
-import ru.itmo.projectmanagementservice.dto.ProjectDto
+import ru.itmo.projectmanagementservice.dto.ProjectDTO
 import ru.itmo.projectmanagementservice.model.Project
 
 /**
@@ -15,7 +15,7 @@ interface IProjectService {
      * @param dto DTO-объект проекта, который необходимо создать.
      * @return созданный объект проекта.
      */
-    fun createProject(dto: ProjectDto): Project
+    fun createProject(dto: ProjectDTO): Project
 
     /**
      * Получает проект по его уникальному идентификатору.
@@ -34,7 +34,7 @@ interface IProjectService {
      */
     fun updateProject(
         id: Long,
-        dto: ProjectDto,
+        dto: ProjectDTO,
     ): Project
 
     /**

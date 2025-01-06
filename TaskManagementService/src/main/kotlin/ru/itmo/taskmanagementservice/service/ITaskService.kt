@@ -1,6 +1,6 @@
 package ru.itmo.taskmanagementservice.service
 
-import ru.itmo.taskmanagementservice.dto.TaskDto
+import ru.itmo.taskmanagementservice.dto.TaskDTO
 import ru.itmo.taskmanagementservice.model.Task
 import ru.itmo.taskmanagementservice.model.TaskPriority
 import ru.itmo.taskmanagementservice.model.TaskStatus
@@ -15,7 +15,7 @@ interface ITaskService {
      * @param dto DTO задача, которую нужно создать
      * @return созданная задача
      */
-    fun createTask(dto: TaskDto): Task
+    fun createTask(dto: TaskDTO): Task
 
     /**
      * Получает задачу по ее уникальному идентификатору.
@@ -34,7 +34,7 @@ interface ITaskService {
      */
     fun updateTask(
         id: Long,
-        dto: TaskDto,
+        dto: TaskDTO,
     ): Task
 
     /**

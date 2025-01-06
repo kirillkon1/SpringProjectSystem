@@ -13,6 +13,11 @@ cd ProjectManagementService
 ./gradlew clean build
 cd ..
 
+# User Manager Service
+cd UserManagementService
+./gradlew clean build
+cd ..
+
 # Остановка текущих контейнеров Docker
 docker-compose down
 

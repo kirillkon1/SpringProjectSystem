@@ -11,7 +11,7 @@ import java.time.LocalDateTime
 /**
  * DTO for {@link ru.itmo.taskmanagementservice.model.Task}
  */
-data class TaskDto(
+data class TaskDTO(
     @field:NotBlank(message = "Название задачи не может быть пустым")
     @field:NotNull
     val title: String? = null,

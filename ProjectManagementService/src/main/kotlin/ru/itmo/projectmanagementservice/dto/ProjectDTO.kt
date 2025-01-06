@@ -9,7 +9,7 @@ import java.time.LocalDateTime
 /**
  * DTO for {@link ru.itmo.projectmanagementservice.model.Project}
  */
-data class ProjectDto(
+data class ProjectDTO(
     @field:NotBlank(message = "Название проекта не может быть пустым")
     val name: String? = null,
     @field:Size(message = "Описание не должно превышать 2000 символов", max = 2000)

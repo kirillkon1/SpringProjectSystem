@@ -8,7 +8,7 @@ import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
 import org.springframework.validation.annotation.Validated
 import org.springframework.web.bind.annotation.*
-import ru.itmo.taskmanagementservice.dto.TaskDto
+import ru.itmo.taskmanagementservice.dto.TaskDTO
 import ru.itmo.taskmanagementservice.model.Task
 import ru.itmo.taskmanagementservice.model.TaskPriority
 import ru.itmo.taskmanagementservice.model.TaskStatus
@@ -20,7 +20,7 @@ import ru.itmo.taskmanagementservice.service.impl.TaskService
 class TaskController(private val taskService: TaskService) {
     @PostMapping
     fun createTask(
-        @Valid @RequestBody dto: TaskDto,
+        @Valid @RequestBody dto: TaskDTO,
     ): ResponseEntity<Task> {
         val createdTask = taskService.createTask(dto)
         return ResponseEntity.status(HttpStatus.CREATED).body(createdTask)
@@ -37,7 +37,7 @@ class TaskController(private val taskService: TaskService) {
     @PutMapping("/{id}")
     fun updateTask(
         @PathVariable @Min(1) id: Long,
-        @Valid @RequestBody dto: TaskDto,
+        @Valid @RequestBody dto: TaskDTO,
     ): ResponseEntity<Task> {
         val updatedTask = taskService.updateTask(id, dto)
         return ResponseEntity.ok(updatedTask)

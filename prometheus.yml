@@ -11,3 +11,9 @@ scrape_configs:
     metrics_path: '/actuator/prometheus'
     static_configs:
       - targets: ['project-manager-service:8002']
+
+  - job_name: 'user-manager-service'
+    metrics_path: '/actuator/prometheus'
+    static_configs:
+      - targets: [ 'user-manager-service:8003' ]
+

@@ -11,7 +11,7 @@ services:
 #      - ./initdb:/docker-entrypoint-initdb.d
       - postgres_data:/var/lib/postgresql/data
     networks:
-      - task-network
+      - system-network
 
   task-manager-service:
     build: ./TaskManagementService
@@ -24,7 +24,7 @@ services:
     depends_on:
       - postgres
     networks:
-      - task-network
+      - system-network
     logging:
       driver: "json-file"
       options:
@@ -42,7 +42,25 @@ services:
     depends_on:
       - postgres
     networks:
-      - task-network
+      - system-network
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "10m"
+        max-file: "3"
+
+  user-manager-service:
+    build: ./UserManagementService
+    ports:
+      - "8003:8003"
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:postgresql://postgres:5432/postgres
+      SPRING_DATASOURCE_USERNAME: postgres
+      SPRING_DATASOURCE_PASSWORD: postgres
+    depends_on:
+      - postgres
+    networks:
+      - system-network
     logging:
       driver: "json-file"
       options:
@@ -60,7 +78,7 @@ services:
     volumes:
       - elasticsearch-data:/usr/share/elasticsearch/data
     networks:
-      - task-network
+      - system-network
 
   # Logstash
   logstash:
@@ -72,7 +90,7 @@ services:
     depends_on:
       - elasticsearch
     networks:
-      - task-network
+      - system-network
 
   # Kibana
   kibana:
@@ -82,7 +100,7 @@ services:
     depends_on:
       - elasticsearch
     networks:
-      - task-network
+      - system-network
 
   # Prometheus
   prometheus:
@@ -92,7 +110,7 @@ services:
     ports:
       - "9090:9090"
     networks:
-      - task-network
+      - system-network
 
   # Grafana
   grafana:
@@ -104,12 +122,12 @@ services:
     environment:
       - GF_SECURITY_ADMIN_PASSWORD=admin
     networks:
-      - task-network
+      - system-network
 
 volumes:
   postgres_data:
   elasticsearch-data:
 
 networks:
-  task-network:
+  system-network:
     driver: bridge

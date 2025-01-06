@@ -1,14 +1,14 @@
 package ru.itmo.projectmanagementservice.service.impl
 
 import org.springframework.stereotype.Service
-import ru.itmo.projectmanagementservice.dto.ProjectDto
+import ru.itmo.projectmanagementservice.dto.ProjectDTO
 import ru.itmo.projectmanagementservice.model.Project
 import ru.itmo.projectmanagementservice.repository.ProjectRepository
 import ru.itmo.projectmanagementservice.service.IProjectService
 
 @Service
 class ProjectService(private val projectRepository: ProjectRepository) : IProjectService {
-    override fun createProject(dto: ProjectDto): Project {
+    override fun createProject(dto: ProjectDTO): Project {
         val project =
             Project(
                 name = dto.name!!,
@@ -30,7 +30,7 @@ class ProjectService(private val projectRepository: ProjectRepository) : IProjec
 
     override fun updateProject(
         id: Long,
-        dto: ProjectDto,
+        dto: ProjectDTO,
     ): Project {
         val existingProject = getProjectById(id)
         val updatedProject =

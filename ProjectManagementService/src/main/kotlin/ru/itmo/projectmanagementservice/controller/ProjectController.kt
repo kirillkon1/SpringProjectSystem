@@ -8,7 +8,7 @@ import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
 import org.springframework.validation.annotation.Validated
 import org.springframework.web.bind.annotation.*
-import ru.itmo.projectmanagementservice.dto.ProjectDto
+import ru.itmo.projectmanagementservice.dto.ProjectDTO
 import ru.itmo.projectmanagementservice.model.Project
 import ru.itmo.projectmanagementservice.service.impl.ProjectService
 
@@ -18,7 +18,7 @@ import ru.itmo.projectmanagementservice.service.impl.ProjectService
 class ProjectController(private val projectService: ProjectService) {
     @PostMapping
     fun createProject(
-        @Valid @RequestBody dto: ProjectDto,
+        @Valid @RequestBody dto: ProjectDTO,
     ): ResponseEntity<Project> {
         val createdProject = projectService.createProject(dto)
         return ResponseEntity.status(HttpStatus.CREATED).body(createdProject)
@@ -35,7 +35,7 @@ class ProjectController(private val projectService: ProjectService) {
     @PutMapping("/{id}")
     fun updateProject(
         @PathVariable @Min(1) id: Long,
-        @Valid @RequestBody dto: ProjectDto,
+        @Valid @RequestBody dto: ProjectDTO,
     ): ResponseEntity<Project> {
         val updatedProject = projectService.updateProject(id, dto)
         return ResponseEntity.ok(updatedProject)

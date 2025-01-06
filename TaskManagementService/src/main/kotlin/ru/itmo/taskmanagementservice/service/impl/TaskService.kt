@@ -2,7 +2,7 @@ package ru.itmo.taskmanagementservice.service.impl
 
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
-import ru.itmo.taskmanagementservice.dto.TaskDto
+import ru.itmo.taskmanagementservice.dto.TaskDTO
 import ru.itmo.taskmanagementservice.model.Task
 import ru.itmo.taskmanagementservice.model.TaskPriority
 import ru.itmo.taskmanagementservice.model.TaskStatus
@@ -12,7 +12,7 @@ import ru.itmo.taskmanagementservice.service.ITaskService
 @Service
 @Transactional
 class TaskService(private val taskRepository: TaskRepository) : ITaskService {
-    override fun createTask(dto: TaskDto): Task {
+    override fun createTask(dto: TaskDTO): Task {
         val task =
             Task(
                 title = dto.title!!,
@@ -35,7 +35,7 @@ class TaskService(private val taskRepository: TaskRepository) : ITaskService {
 
     override fun updateTask(
         id: Long,
-        dto: TaskDto,
+        dto: TaskDTO,
     ): Task {
         val existingTask = getTaskById(id)
         val updatedTask =
