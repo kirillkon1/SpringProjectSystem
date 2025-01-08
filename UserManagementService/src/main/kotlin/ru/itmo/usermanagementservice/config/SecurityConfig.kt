@@ -42,9 +42,8 @@ class SecurityConfig(
             .authorizeHttpRequests { auth ->
                 auth
                     // Permit all POST requests to /api/auth/register and /api/auth/login
-                    .requestMatchers(HttpMethod.POST, "/api/auth/register", "/api/auth/login", "/api/auth/verify").permitAll()
-                    // Permit all GET requests to Actuator endpoints
-                    .requestMatchers(HttpMethod.GET, "/actuator/**").permitAll()
+                    .requestMatchers(HttpMethod.POST, "/api/auth/*").permitAll()
+                    .requestMatchers(HttpMethod.GET, "/api/auth/*", "/actuator/**").permitAll()
                     // Any other request must be authenticated
                     .anyRequest().authenticated()
             }

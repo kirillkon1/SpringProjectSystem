@@ -1,0 +1,42 @@
+spring:
+  application:
+    name: user-service
+  datasource:
+    url: jdbc:postgresql://localhost:5432/postgres
+    username: postgres
+    password: postgres
+    driver-class-name: org.postgresql.Driver
+  jpa:
+    hibernate:
+      ddl-auto: update
+    show-sql: true
+    properties:
+      hibernate:
+        format_sql: true
+  kafka:
+    bootstrap-servers: localhost:9092
+    consumer:
+      group-id: analytics-group
+      key-deserializer: org.apache.kafka.common.serialization.StringDeserializer
+      value-deserializer: org.apache.kafka.common.serialization.StringDeserializer
+      auto-offset-reset: earliest
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: "*"
+  prometheus:
+    metrics:
+      export:
+        enabled: true
+
+springdoc:
+  api-docs:
+    path: /v3/api-docs
+  swagger-ui:
+    path: /swagger-ui.html
+
+jwt:
+  secret: Rf+963vdkSxgAP9MJVB+BIFLJoVn7sIa/mLUTtVgTaZwpVQWAOpFCsU5f9USMILMquDZFiPH5Q32pqp/YOwcky8mODXh0wPBp6zE1NFGI2vkH3W+6S7eBHn9j6xVeg1zo8WJ8m3nDdI6OmskpM0GfLpeDXkUoeUal+zN4YXcFJwD
+  expirationMs: 86400000 # 1 день в мс

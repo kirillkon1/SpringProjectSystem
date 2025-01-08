@@ -42,6 +42,11 @@ dependencies {
     testImplementation("org.springframework.boot:spring-boot-starter-test")
     testImplementation("org.jetbrains.kotlin:kotlin-test-junit5")
     testRuntimeOnly("org.junit.platform:junit-platform-launcher")
+
+    implementation("org.springframework.cloud:spring-cloud-starter-config:4.2.0") // Cloud Config
+    implementation("org.springframework.retry:spring-retry")
+    implementation("org.springframework.boot:spring-boot-starter-aop")
+
     implementation("org.springdoc:springdoc-openapi-starter-webmvc-ui:2.0.2") // Swagger
 
     implementation("ru.itmo:ApiObject:1.0") // apiobject

@@ -25,8 +25,8 @@
         </encoder>
     </appender>
 
-    <!-- Уровень логирования -->
-    <root level="INFO">
-        <appender-ref ref="STDOUT"/>
-    </root>
+<!--    &lt;!&ndash; Уровень логирования &ndash;&gt;-->
+<!--    <root level="INFO">-->
+<!--        <appender-ref ref="STDOUT"/>-->
+<!--    </root>-->
 </configuration>
