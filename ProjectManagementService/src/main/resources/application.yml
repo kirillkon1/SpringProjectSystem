@@ -13,5 +13,5 @@ spring:
       fail-fast: true
 
 server:
-  port: ${SERVER_PORT:5002}
+  port: ${SERVER_PORT:5003}
 

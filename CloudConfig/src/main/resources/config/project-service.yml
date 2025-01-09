@@ -1,4 +1,3 @@
-# project-service.yml
 spring:
   application:
     name: project-service

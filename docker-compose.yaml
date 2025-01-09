@@ -13,10 +13,19 @@ services:
     networks:
       - microservices-network
 
+  redis:
+    image: redis:6.2
+    ports:
+      - "6379:6379"
+    networks:
+      - microservices-network
+
   cloud-config:
     build: ./CloudConfig
     ports:
       - "8888:8888"
+    environment:
+      SERVER_PORT: 8888
     networks:
       - microservices-network
     logging:
@@ -25,8 +34,27 @@ services:
         max-size: "10m"
         max-file: "3"
 
-  task-manager-service:
-    build: ./TaskManagementService
+  api-gateway:
+    build: ./ApiGateway
+    environment:
+      SERVER_PORT: 8080
+      CLOUD_CONFIG_URL: http://cloud-config:8888
+      USER_SERVICE: http://user-manager-service:8001
+      TASK_SERVICE: http://task-manager-service:8002
+      PROJECT_SERVICE: http://project-manager-service:8003
+    ports:
+      - "8080:8080"
+    networks:
+      - microservices-network
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "10m"
+        max-file: "3"
+
+
+  user-manager-service:
+    build: ./UserManagementService
     ports:
       - "8001:8001"
     environment:
@@ -46,8 +74,8 @@ services:
         max-size: "10m"
         max-file: "3"
 
-  project-manager-service:
-    build: ./ProjectManagementService
+  task-manager-service:
+    build: ./TaskManagementService
     ports:
       - "8002:8002"
     environment:
@@ -67,8 +95,8 @@ services:
         max-size: "10m"
         max-file: "3"
 
-  user-manager-service:
-    build: ./UserManagementService
+  project-manager-service:
+    build: ./ProjectManagementService
     ports:
       - "8003:8003"
     environment:

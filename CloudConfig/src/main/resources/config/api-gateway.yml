@@ -1,0 +1,25 @@
+spring:
+  application:
+    name: api-gateway
+
+  security:
+    oauth2:
+      resourceserver:
+        jwt:
+          secret: Rf+963vdkSxgAP9MJVB+BIFLJoVn7sIa/mLUTtVgTaZwpVQWAOpFCsU5f9USMILMquDZFiPH5Q32pqp/YOwcky8mODXh0wPBp6zE1NFGI2vkH3W+6S7eBHn9j6xVeg1zo8WJ8m3nDdI6OmskpM0GfLpeDXkUoeUal+zN4YXcFJwD
+          signature-algorithm: HS256
+logging:
+  level:
+    org.springframework.cloud.gateway: INFO
+    org.springframework.security: DEBUG
+
+
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: "*"
+  endpoint:
+    prometheus:
+      access: unrestricted

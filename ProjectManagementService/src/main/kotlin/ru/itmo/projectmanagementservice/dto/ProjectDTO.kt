@@ -21,3 +21,16 @@ data class ProjectDTO(
     @field:Min(message = "Бюджет проекта должен быть неотрицательным числом", value = 0)
     val budget: Double? = null,
 ) : Serializable
+
+/*
+
+{
+  "name": "Название проекта",
+  "description": "Краткое описание проекта (не более 2000 символов)",
+  "location": "Где-то",
+  "startDate": "2025-01-09T10:00:00",
+  "endDate": "2025-01-20T18:00:00",
+  "budget": 100000.0
+}
+
+ */

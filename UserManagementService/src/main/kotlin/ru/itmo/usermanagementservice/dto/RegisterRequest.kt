@@ -18,3 +18,17 @@ data class RegisterRequest(
     @field:NotBlank(message = "Фамилия не может быть пустой")
     val lastName: String,
 )
+
+/*
+
+{
+    "username": "kirillkon1",
+    "password": "123321",
+    "email": "test@test.ru",
+    "firstName": "kirill",
+    "lastName": "kon"
+}
+
+
+
+ */
