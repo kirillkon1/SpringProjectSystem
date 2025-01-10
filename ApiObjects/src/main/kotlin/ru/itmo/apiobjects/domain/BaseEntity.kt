@@ -1,6 +1,6 @@
 @file:Suppress("ktlint:standard:no-wildcard-imports")
 
-package ru.itmo.domain
+package ru.itmo.ru.itmo.apiobjects.domain
 
 import jakarta.persistence.*
 import java.time.LocalDateTime

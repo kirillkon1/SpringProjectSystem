@@ -4,7 +4,7 @@ import io.jsonwebtoken.JwtException
 import org.springframework.security.core.userdetails.UsernameNotFoundException
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder
 import org.springframework.stereotype.Service
-import ru.itmo.dto.VerifyTokenDto
+import ru.itmo.ru.itmo.apiobjects.dto.VerifyTokenDto
 import ru.itmo.usermanagementservice.dto.RegisterRequest
 import ru.itmo.usermanagementservice.dto.UserDTO
 import ru.itmo.usermanagementservice.mapper.toDTO

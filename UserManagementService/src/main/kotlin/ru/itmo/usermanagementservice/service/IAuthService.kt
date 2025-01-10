@@ -1,6 +1,6 @@
 package ru.itmo.usermanagementservice.service
 
-import ru.itmo.dto.VerifyTokenDto
+import ru.itmo.ru.itmo.apiobjects.dto.VerifyTokenDto
 import ru.itmo.usermanagementservice.dto.RegisterRequest
 import ru.itmo.usermanagementservice.dto.UserDTO
 

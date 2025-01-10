@@ -1,4 +1,4 @@
-package ru.itmo.dto
+package ru.itmo.ru.itmo.apiobjects.dto
 
 class VerifyTokenDto(
     var userName: String? = null,

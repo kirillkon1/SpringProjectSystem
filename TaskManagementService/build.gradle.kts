@@ -56,6 +56,9 @@ dependencies {
 
     // Структурированное логирование
     implementation("net.logstash.logback:logstash-logback-encoder:7.0.1")
+
+    // Spring for Apache Kafka
+    implementation("org.springframework.kafka:spring-kafka")
 }
 
 dependencyManagement {

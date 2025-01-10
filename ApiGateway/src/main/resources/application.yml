@@ -44,17 +44,12 @@ spring:
           filters:
             - LogFilter
 
-#          - id: analytics-service
-#            uri: http://analytics-service:8084
-#            predicates:
-#              - Path=/api/analytics/**
-#            filters:
-#              - StripPrefix=2
-#              - name: RequestRateLimiter
-#                args:
-#                  redis-rate-limiter.replenishRate: 10
-#                  redis-rate-limiter.burstCapacity: 20
-#              - LoggingFilter
+        - id: analytics-service
+          uri: ${ANALYTICS_SERVICE:http://localhost:5004}
+          predicates:
+            - Path=/api/analytics/**
+          filters:
+            - LogFilter
 
       globalcors:
         corsConfigurations:

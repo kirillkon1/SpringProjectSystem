@@ -31,3 +31,17 @@ data class TaskDTO(
 //    @field:FutureOrPresent(message = "Дедлайн должен быть в настоящем или будущем")
     val dueDate: LocalDateTime? = null,
 ) : Serializable
+
+/*
+
+{
+    "title": "Новая задача",
+    "description": "Описание задачи",
+    "status": "NEW",
+    "priority": "NORMAL",
+    "assignedTo": 1,
+    "projectId": 1,
+    "dueDate": "2025-02-01T12:00:00"
+ }
+
+ */

@@ -1,11 +1,13 @@
 spring:
   application:
     name: analytics-service
+
   datasource:
     url: jdbc:postgresql://localhost:5432/postgres
     username: postgres
     password: postgres
     driver-class-name: org.postgresql.Driver
+
   jpa:
     hibernate:
       ddl-auto: update
@@ -13,18 +15,12 @@ spring:
     properties:
       hibernate:
         format_sql: true
-  kafka:
-    bootstrap-servers: localhost:9092
-    consumer:
-      group-id: analytics-group
-      key-deserializer: org.apache.kafka.common.serialization.StringDeserializer
-      value-deserializer: org.apache.kafka.common.serialization.StringDeserializer
-      auto-offset-reset: earliest
 
-logging:
-  level:
-    org.springframework.kafka: INFO
-    org.springframework.security: DEBUG
+springdoc:
+  api-docs:
+    path: /v3/api-docs
+  swagger-ui:
+    path: /swagger-ui.html
 
 management:
   endpoints:
@@ -34,9 +30,3 @@ management:
   endpoint:
     prometheus:
       access: unrestricted
-
-springdoc:
-  api-docs:
-    path: /v3/api-docs
-  swagger-ui:
-    path: /swagger-ui.html

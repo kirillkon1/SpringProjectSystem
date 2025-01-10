@@ -20,6 +20,11 @@ cd ./UserManagementService
 ./gradlew clean build -x test
 cd ..
 
+# API Gateway
+cd ./AnalyticsService
+./gradlew clean build -x test
+cd ..
+
 # Cloud Config Server
 cd ./CloudConfig
 ./gradlew clean build -x test

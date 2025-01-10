@@ -1,5 +1,5 @@
 FROM openjdk:21
-LABEL name="cloud-config"
+LABEL name="config-server"
 
 # Устанавливаем рабочую директорию
 WORKDIR /app

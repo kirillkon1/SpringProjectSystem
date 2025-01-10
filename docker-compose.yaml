@@ -13,14 +13,7 @@ services:
     networks:
       - microservices-network
 
-  redis:
-    image: redis:6.2
-    ports:
-      - "6379:6379"
-    networks:
-      - microservices-network
-
-  cloud-config:
+  config-server:
     build: ./CloudConfig
     ports:
       - "8888:8888"
@@ -38,7 +31,7 @@ services:
     build: ./ApiGateway
     environment:
       SERVER_PORT: 8080
-      CLOUD_CONFIG_URL: http://cloud-config:8888
+      CLOUD_CONFIG_URL: http://config-server:8888
       USER_SERVICE: http://user-manager-service:8001
       TASK_SERVICE: http://task-manager-service:8002
       PROJECT_SERVICE: http://project-manager-service:8003
@@ -46,6 +39,11 @@ services:
       - "8080:8080"
     networks:
       - microservices-network
+    depends_on:
+      - config-server
+      - user-manager-service
+      - task-manager-service
+      - project-manager-service
     logging:
       driver: "json-file"
       options:
@@ -59,13 +57,13 @@ services:
       - "8001:8001"
     environment:
       SERVER_PORT: 8001
-      CLOUD_CONFIG_URL: http://cloud-config:8888
+      CLOUD_CONFIG_URL: http://config-server:8888
       SPRING_DATASOURCE_URL: jdbc:postgresql://postgres:5432/postgres
       SPRING_DATASOURCE_USERNAME: postgres
       SPRING_DATASOURCE_PASSWORD: postgres
     depends_on:
       - postgres
-      - cloud-config
+      - config-server
     networks:
       - microservices-network
     logging:
@@ -80,13 +78,14 @@ services:
       - "8002:8002"
     environment:
       SERVER_PORT: 8002
-      CLOUD_CONFIG_URL: http://cloud-config:8888
+      CLOUD_CONFIG_URL: http://config-server:8888
       SPRING_DATASOURCE_URL: jdbc:postgresql://postgres:5432/postgres
       SPRING_DATASOURCE_USERNAME: postgres
       SPRING_DATASOURCE_PASSWORD: postgres
+      KAFKA_BOOTSTRAP_SERVERS: kafka:9092
     depends_on:
       - postgres
-      - cloud-config
+      - config-server
     networks:
       - microservices-network
     logging:
@@ -101,13 +100,13 @@ services:
       - "8003:8003"
     environment:
       SERVER_PORT: 8003
-      CLOUD_CONFIG_URL: http://cloud-config:8888
+      CLOUD_CONFIG_URL: http://config-server:8888
       SPRING_DATASOURCE_URL: jdbc:postgresql://postgres:5432/postgres
       SPRING_DATASOURCE_USERNAME: postgres
       SPRING_DATASOURCE_PASSWORD: postgres
     depends_on:
       - postgres
-      - cloud-config
+      - config-server
     networks:
       - microservices-network
     logging:
@@ -117,32 +116,43 @@ services:
         max-file: "3"
 
   # Analytics Service
-#  analytics-service:
-#    image: analytics-service:latest
-#    build: ./analytics-service
-#    ports:
-#      - "8004:8004"
-#    environment:
-#      SPRING_PROFILES_ACTIVE: default
-#      SPRING_DATASOURCE_URL: jdbc:postgresql://postgres-analytics:5432/analytics_db
-#      SPRING_DATASOURCE_USERNAME: analytics_user
-#      SPRING_DATASOURCE_PASSWORD: your_password
-#      KAFKA_BOOTSTRAP_SERVERS: kafka:9092
-#    depends_on:
-#      - config-server
-#      - postgres-analytics
-#      - kafka
-#    networks:
-#      - microservices-network
+  analytics-service:
+    image: analytics-service:latest
+    build: ./AnalyticsService
+    ports:
+      - "8004:8004"
+    environment:
+
+      SERVER_PORT: 8004
+      CLOUD_CONFIG_URL: http://config-server:8888
+      SPRING_DATASOURCE_URL: jdbc:postgresql://postgres:5432/postgres
+      SPRING_DATASOURCE_USERNAME: postgres
+      SPRING_DATASOURCE_PASSWORD: postgres
+
+      KAFKA_BOOTSTRAP_SERVERS: kafka:9092
+    depends_on:
+      - config-server
+      - postgres
+      - kafka
+    networks:
+      - microservices-network
 
   # Kafka
   kafka:
-    image: wurstmeister/kafka:latest
+    image: confluentinc/cp-kafka:latest
     ports:
-      - "9092:9092"
+      - "9092:9092"   # Для PLAINTEXT
+      - "9093:9093"   # Для PLAINTEXT_INTERNAL
     environment:
-      KAFKA_ADVERTISED_HOST_NAME: kafka
+      KAFKA_BROKER_ID: 1
       KAFKA_ZOOKEEPER_CONNECT: zookeeper:2181
+      KAFKA_ADVERTISED_LISTENERS: PLAINTEXT://localhost:9092,PLAINTEXT_INTERNAL://kafka:9093
+      KAFKA_LISTENER_SECURITY_PROTOCOL_MAP: PLAINTEXT:PLAINTEXT,PLAINTEXT_INTERNAL:PLAINTEXT
+      KAFKA_INTER_BROKER_LISTENER_NAME: PLAINTEXT_INTERNAL
+      KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR: 1
+      KAFKA_CREATE_TOPICS: "task-requests:1:1,task-responses:1:1,task-events:1:1"
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
     depends_on:
       - zookeeper
     networks:
@@ -150,9 +160,12 @@ services:
 
   # Zookeeper
   zookeeper:
-    image: wurstmeister/zookeeper:latest
+    image: zookeeper:latest
     ports:
       - "2181:2181"
+    environment:
+      ZOOKEEPER_CLIENT_PORT: 2181
+      ZOOKEEPER_TICK_TIME: 2000
     networks:
       - microservices-network
 

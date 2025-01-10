@@ -2,7 +2,7 @@ spring:
   application:
     name: project-service
   config:
-    import: configserver:${CLOUD_CONFIG_URL:http://localhost:8888}
+    import: configserver:${CLOUD_CONFIG_URL:http://localhost:5555}
   cloud:
     config:
       retry:
@@ -14,4 +14,3 @@ spring:
 
 server:
   port: ${SERVER_PORT:5003}
-

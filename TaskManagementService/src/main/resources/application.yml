@@ -2,7 +2,7 @@ spring:
   application:
     name: task-service
   config:
-    import: configserver:${CLOUD_CONFIG_URL:http://localhost:8888}
+    import: configserver:${CLOUD_CONFIG_URL:http://localhost:5555}
   cloud:
     config:
       retry:
@@ -11,6 +11,27 @@ spring:
         multiplier: 1.5
         max-interval: 10000
       fail-fast: true
+
+  kafka:
+    bootstrap-servers:
+      - ${KAFKA_BOOTSTRAP_SERVERS:localhost:9092}
+    consumer:
+      group-id: analytics-group
+      auto-offset-reset: earliest
+      key-deserializer: org.apache.kafka.common.serialization.StringDeserializer
+      value-deserializer: org.springframework.kafka.support.serializer.JsonDeserializer
+      properties:
+        spring.json.trusted.packages: ru.itmo.apiobjects.kafka.model
+#        spring.json.value.default.type: ru.itmo.apiobjects.kafka.model.TaskRequest
+    producer:
+      key-serializer: org.apache.kafka.common.serialization.StringSerializer
+      value-serializer: org.springframework.kafka.support.serializer.JsonSerializer
+
+logging:
+  level:
+    org.springframework.cloud.gateway: ERROR
+    org.springframework.security: ERROR
+    org.apache.kafka: ERROR
 
 server:
   port: ${SERVER_PORT:5002}

@@ -7,7 +7,7 @@ import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
 import org.springframework.validation.annotation.Validated
 import org.springframework.web.bind.annotation.*
-import ru.itmo.dto.VerifyTokenDto
+import ru.itmo.ru.itmo.apiobjects.dto.VerifyTokenDto
 import ru.itmo.usermanagementservice.dto.AuthResponse
 import ru.itmo.usermanagementservice.dto.LoginRequest
 import ru.itmo.usermanagementservice.dto.UserDTO

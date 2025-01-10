@@ -3,7 +3,7 @@
 package ru.itmo.usermanagementservice.model
 
 import jakarta.persistence.*
-import ru.itmo.domain.BaseEntity
+import ru.itmo.ru.itmo.apiobjects.domain.BaseEntity
 
 @Entity
 @Table(name = "users")
