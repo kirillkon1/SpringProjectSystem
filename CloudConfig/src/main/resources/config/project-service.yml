@@ -22,6 +22,11 @@ management:
   endpoint:
     prometheus:
       access: unrestricted
+  prometheus:
+    metrics:
+      export:
+        enabled: true
+
 
 springdoc:
   api-docs:

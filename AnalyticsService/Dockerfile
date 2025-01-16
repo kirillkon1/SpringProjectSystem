@@ -1,4 +1,5 @@
-FROM openjdk:21
+# Лёгкое Alpine-окружение с JRE 21
+FROM eclipse-temurin:21-jre-alpine
 LABEL name="analytics-service"
 
 # Устанавливаем рабочую директорию

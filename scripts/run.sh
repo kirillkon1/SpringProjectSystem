@@ -42,8 +42,8 @@ docker-compose build --no-cache api-gateway analytics-service
 #docker-compose build --no-cache user-manager-service
 
 #docker-compose down task-manager-service project-manager-service user-manager-service config-server
-#docker-compose up --build -d task-manager-service project-manager-service
-#docker-compose up --build -d user-manager-service config-server
+docker-compose up --build -d task-manager-service project-manager-service
+docker-compose up --build -d user-manager-service config-server
 docker-compose up --build -d api-gateway analytics-service
 
 

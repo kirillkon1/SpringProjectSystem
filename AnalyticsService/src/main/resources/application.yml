@@ -21,7 +21,7 @@ spring:
       value-deserializer: org.springframework.kafka.support.serializer.JsonDeserializer
       properties:
         spring.json.trusted.packages: ru.itmo.apiobjects.kafka.model
-        spring.json.value.default.type: ru.itmo.apiobjects.kafka.model.TaskRequest
+#        spring.json.value.default.type: ru.itmo.apiobjects.kafka.model.TaskRequest
     producer:
       key-serializer: org.apache.kafka.common.serialization.StringSerializer
       value-serializer: org.springframework.kafka.support.serializer.JsonSerializer

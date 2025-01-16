@@ -35,6 +35,7 @@ services:
       USER_SERVICE: http://user-manager-service:8001
       TASK_SERVICE: http://task-manager-service:8002
       PROJECT_SERVICE: http://project-manager-service:8003
+      ANALYTICS_SERVICE: http://analytics-service:8004
     ports:
       - "8080:8080"
     networks:
@@ -49,7 +50,6 @@ services:
       options:
         max-size: "10m"
         max-file: "3"
-
 
   user-manager-service:
     build: ./UserManagementService

@@ -3,7 +3,7 @@
 package ru.itmo.taskmanagementservice.model
 
 import jakarta.persistence.*
-import ru.itmo.ru.itmo.apiobjects.domain.BaseEntity
+import ru.itmo.apiobjects.domain.BaseEntity
 import java.time.LocalDateTime
 
 @Entity
