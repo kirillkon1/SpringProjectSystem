@@ -3,34 +3,38 @@
 # Завершаем скрипт при любой ошибке
 set -e
 
-cd ..
-
 # Task Management Service
-cd ./TaskManagementService
+echo "Building TaskManagementService..."
+cd ../TaskManagementService
 ./gradlew clean build -x test
-cd ..
+
 
 # Project Management Service
-cd ./ProjectManagementService
+echo "Building ProjectManagementService..."
+cd ../ProjectManagementService
 ./gradlew clean build -x test
-cd ..
+
 
 # User Management Service
-cd ./UserManagementService
+echo "Building UserManagementService..."
+cd ../UserManagementService
 ./gradlew clean build -x test
-cd ..
+
 
 # API Gateway
-cd ./AnalyticsService
+echo "Building AnalyticsService..."
+cd ../AnalyticsService
 ./gradlew clean build -x test
-cd ..
+
 
 # Cloud Config Server
-cd ./CloudConfig
+echo "Building CloudConfig..."
+cd ../CloudConfig
 ./gradlew clean build -x test
-cd ..
+
 
 # API Gateway
-cd ./ApiGateway
+echo "Building ApiGateway..."
+cd ../ApiGateway
 ./gradlew clean build -x test
-cd ..
+

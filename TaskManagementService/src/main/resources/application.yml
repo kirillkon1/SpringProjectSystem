@@ -1,3 +1,6 @@
+server:
+  port: ${SERVER_PORT:5002}
+
 spring:
   application:
     name: task-service
@@ -11,6 +14,21 @@ spring:
         multiplier: 1.5
         max-interval: 10000
       fail-fast: true
+
+  datasource:
+    url: jdbc:postgresql://${APP_POSTGRESQL_HOST:127.0.0.1}:${APP_POSTGRESQL_PORT:5432}/${APP_POSTGRESQL_NAME:tasks_db}
+    username: ${APP_POSTGRESQL_USER:postgres}
+    password: ${APP_POSTGRESQL_PASSWORD:postgres}
+    driver-class-name: org.postgresql.Driver
+
+  jpa:
+    hibernate:
+      ddl-auto: update
+    show-sql: true
+    properties:
+      hibernate:
+        format_sql: true
+        dialect: org.hibernate.dialect.PostgreSQLDialect
 
   kafka:
     bootstrap-servers:
@@ -28,11 +46,5 @@ spring:
       value-serializer: org.springframework.kafka.support.serializer.JsonSerializer
 
 logging:
-  level:
-    org.springframework.cloud.gateway: ERROR
-    org.springframework.security: ERROR
-    org.apache.kafka: ERROR
-
-server:
-  port: ${SERVER_PORT:5002}
+  config: classpath:${logback:logback-spring.xml}
 

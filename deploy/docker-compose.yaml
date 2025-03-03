@@ -1,24 +1,11 @@
 services:
-  postgres:
-    image: 'postgres:latest'
-    environment:
-      - POSTGRES_USER=postgres
-      - POSTGRES_PASSWORD=postgres
-      - POSTGRES_DB=postgres
-    ports:
-      - "5432:5432"
-    volumes:
-#      - ./initdb:/docker-entrypoint-initdb.d
-      - postgres_data:/var/lib/postgresql/data
-    networks:
-      - microservices-network
-
   config-server:
-    build: ./CloudConfig
-    ports:
-      - "8888:8888"
+    container_name: server-config
+    build: ../CloudConfig
     environment:
-      SERVER_PORT: 8888
+      - SERVER_PORT=${ENV_SERVER_CONFIG_PORT}
+    ports:
+      - ${ENV_SERVER_CONFIG_PORT}:${ENV_SERVER_CONFIG_PORT}
     networks:
       - microservices-network
     logging:
@@ -28,16 +15,17 @@ services:
         max-file: "3"
 
   api-gateway:
-    build: ./ApiGateway
+    container_name: API-Gateway
+    build: ../ApiGateway
     environment:
-      SERVER_PORT: 8080
-      CLOUD_CONFIG_URL: http://config-server:8888
-      USER_SERVICE: http://user-manager-service:8001
-      TASK_SERVICE: http://task-manager-service:8002
-      PROJECT_SERVICE: http://project-manager-service:8003
-      ANALYTICS_SERVICE: http://analytics-service:8004
+      - SERVER_PORT=${ENV_API_GATEWAY_PORT}
+      - CLOUD_CONFIG_URL=${ENV_SERVER_CONFIG_HOST}:${ENV_SERVER_CONFIG_PORT}
+      - USER_SERVICE=http://user-manager-service:${ENV_PROJECTS_SERVICE_PORT}
+      - TASK_SERVICE=http://task-manager-service:${ENV_TASKS_SERVICE_PORT}
+      - PROJECT_SERVICE=http://project-manager-service:${ENV_USERS_SERVICE_PORT}
+      - ANALYTICS_SERVICE=http://analytics-service:${ENV_ANALYTICS_SERVICE_PORT}
     ports:
-      - "8080:8080"
+      - ${ENV_API_GATEWAY_PORT}:${ENV_API_GATEWAY_PORT}
     networks:
       - microservices-network
     depends_on:
@@ -52,15 +40,19 @@ services:
         max-file: "3"
 
   user-manager-service:
-    build: ./UserManagementService
+    container_name: users-service
+    build: ../UserManagementService
     ports:
       - "8001:8001"
     environment:
-      SERVER_PORT: 8001
-      CLOUD_CONFIG_URL: http://config-server:8888
-      SPRING_DATASOURCE_URL: jdbc:postgresql://postgres:5432/postgres
-      SPRING_DATASOURCE_USERNAME: postgres
-      SPRING_DATASOURCE_PASSWORD: postgres
+      - SERVER_PORT=${ENV_USERS_SERVICE_PORT}
+      - CLOUD_CONFIG_URL=${ENV_SERVER_CONFIG_HOST}:${ENV_SERVER_CONFIG_PORT}
+      # PostgreSQL
+      - APP_POSTGRESQL_HOST=${ENV_APP_POSTGRESQL_HOST}
+      - APP_POSTGRESQL_PORT=${ENV_APP_POSTGRESQL_PORT}
+      - APP_POSTGRESQL_NAME=${ENV_USERS_SERVICE_DATABASE}
+      - APP_POSTGRESQL_USER=${ENV_APP_POSTGRESQL_USER}
+      - APP_POSTGRESQL_PASSWORD=${ENV_APP_POSTGRESQL_PASSWORD}
     depends_on:
       - postgres
       - config-server
@@ -73,16 +65,21 @@ services:
         max-file: "3"
 
   task-manager-service:
-    build: ./TaskManagementService
+    container_name: tasks-service
+    build: ../TaskManagementService
     ports:
       - "8002:8002"
     environment:
-      SERVER_PORT: 8002
-      CLOUD_CONFIG_URL: http://config-server:8888
-      SPRING_DATASOURCE_URL: jdbc:postgresql://postgres:5432/postgres
-      SPRING_DATASOURCE_USERNAME: postgres
-      SPRING_DATASOURCE_PASSWORD: postgres
-      KAFKA_BOOTSTRAP_SERVERS: kafka:9092
+      - SERVER_PORT=${ENV_PROJECTS_SERVICE_PORT}
+      - CLOUD_CONFIG_URL=${ENV_SERVER_CONFIG_HOST}:${ENV_SERVER_CONFIG_PORT}
+      # PostgreSQL
+      - APP_POSTGRESQL_HOST=${ENV_APP_POSTGRESQL_HOST}
+      - APP_POSTGRESQL_PORT=${ENV_APP_POSTGRESQL_PORT}
+      - APP_POSTGRESQL_NAME=${ENV_PROJECTS_SERVICE_DATABASE}
+      - APP_POSTGRESQL_USER=${ENV_APP_POSTGRESQL_USER}
+      - APP_POSTGRESQL_PASSWORD=${ENV_APP_POSTGRESQL_PASSWORD}
+      #Kafka
+      - KAFKA_URL=${ENV_KAFKA_URL}
     depends_on:
       - postgres
       - config-server
@@ -95,15 +92,19 @@ services:
         max-file: "3"
 
   project-manager-service:
-    build: ./ProjectManagementService
+    container_name: projects-service
+    build: ../ProjectManagementService
     ports:
       - "8003:8003"
     environment:
-      SERVER_PORT: 8003
-      CLOUD_CONFIG_URL: http://config-server:8888
-      SPRING_DATASOURCE_URL: jdbc:postgresql://postgres:5432/postgres
-      SPRING_DATASOURCE_USERNAME: postgres
-      SPRING_DATASOURCE_PASSWORD: postgres
+      - SERVER_PORT=${ENV_PROJECTS_SERVICE_PORT}
+      - CLOUD_CONFIG_URL=${ENV_SERVER_CONFIG_HOST}:${ENV_SERVER_CONFIG_PORT}
+      # PostgreSQL
+      - APP_POSTGRESQL_HOST=${ENV_APP_POSTGRESQL_HOST}
+      - APP_POSTGRESQL_PORT=${ENV_APP_POSTGRESQL_PORT}
+      - APP_POSTGRESQL_NAME=${ENV_PROJECTS_SERVICE_DATABASE}
+      - APP_POSTGRESQL_USER=${ENV_APP_POSTGRESQL_USER}
+      - APP_POSTGRESQL_PASSWORD=${ENV_APP_POSTGRESQL_PASSWORD}
     depends_on:
       - postgres
       - config-server
@@ -117,19 +118,22 @@ services:
 
   # Analytics Service
   analytics-service:
+    container_name: analytics-service
     image: analytics-service:latest
-    build: ./AnalyticsService
+    build: ../AnalyticsService
     ports:
       - "8004:8004"
     environment:
-
-      SERVER_PORT: 8004
-      CLOUD_CONFIG_URL: http://config-server:8888
-      SPRING_DATASOURCE_URL: jdbc:postgresql://postgres:5432/postgres
-      SPRING_DATASOURCE_USERNAME: postgres
-      SPRING_DATASOURCE_PASSWORD: postgres
-
-      KAFKA_BOOTSTRAP_SERVERS: kafka:9092
+      - SERVER_PORT=${ENV_ANALYTICS_SERVICE_PORT}
+      - CLOUD_CONFIG_URL=${ENV_SERVER_CONFIG_HOST}:${ENV_SERVER_CONFIG_PORT}
+      # PostgreSQL
+      - APP_POSTGRESQL_HOST=${ENV_APP_POSTGRESQL_HOST}
+      - APP_POSTGRESQL_PORT=${ENV_APP_POSTGRESQL_PORT}
+      - APP_POSTGRESQL_NAME=${ENV_PROJECTS_SERVICE_DATABASE}
+      - APP_POSTGRESQL_USER=${ENV_APP_POSTGRESQL_USER}
+      - APP_POSTGRESQL_PASSWORD=${ENV_APP_POSTGRESQL_PASSWORD}
+       # Kafka
+      - KAFKA_URL=${ENV_KAFKA_URL}
     depends_on:
       - config-server
       - postgres
@@ -137,7 +141,22 @@ services:
     networks:
       - microservices-network
 
-  # Kafka
+  #---------------------Инфраструктурные_сервисы------------------------#
+
+  postgres:
+    image: 'postgres:latest'
+    environment:
+      - POSTGRES_USER=${ENV_APP_POSTGRESQL_USER}
+      - POSTGRES_PASSWORD=${ENV_APP_POSTGRESQL_PASSWORD}
+      - POSTGRES_DB=postgres
+    ports:
+      - "5432:5432"
+    volumes:
+      - ./docker-entrypoint/postgres-db-init.sh:/docker-entrypoint-initdb.d/init-db.sh
+      - postgres_data_spms:/var/lib/postgresql/data
+    networks:
+      - microservices-network
+
   kafka:
     image: confluentinc/cp-kafka:latest
     ports:
@@ -146,7 +165,7 @@ services:
     environment:
       KAFKA_BROKER_ID: 1
       KAFKA_ZOOKEEPER_CONNECT: zookeeper:2181
-      KAFKA_ADVERTISED_LISTENERS: PLAINTEXT://localhost:9092,PLAINTEXT_INTERNAL://kafka:9093
+      KAFKA_ADVERTISED_LISTENERS: PLAINTEXT://kafka:9092,PLAINTEXT_INTERNAL://kafka:9093
       KAFKA_LISTENER_SECURITY_PROTOCOL_MAP: PLAINTEXT:PLAINTEXT,PLAINTEXT_INTERNAL:PLAINTEXT
       KAFKA_INTER_BROKER_LISTENER_NAME: PLAINTEXT_INTERNAL
       KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR: 1
@@ -158,7 +177,6 @@ services:
     networks:
       - microservices-network
 
-  # Zookeeper
   zookeeper:
     image: zookeeper:latest
     ports:
@@ -169,7 +187,6 @@ services:
     networks:
       - microservices-network
 
-  # Elasticsearch
   elasticsearch:
     image: docker.elastic.co/elasticsearch/elasticsearch:7.17.9
     environment:
@@ -227,7 +244,7 @@ services:
       - microservices-network
 
 volumes:
-  postgres_data:
+  postgres_data_spms:
   elasticsearch-data:
 
 networks:

@@ -1,5 +1,5 @@
-# Лёгкое Alpine-окружение с JRE 21
-FROM eclipse-temurin:21-jre-alpine
+# Лёгкое окружение с JDK 17
+FROM openjdk:17-jdk-slim
 LABEL name="api-gateway"
 
 WORKDIR /app
