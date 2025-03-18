@@ -53,6 +53,9 @@ dependencies {
 
     // Структурированное логирование
     implementation("net.logstash.logback:logstash-logback-encoder:7.0.1")
+
+    // Eureka
+    implementation("org.springframework.cloud:spring-cloud-starter-netflix-eureka-client")
 }
 
 dependencyManagement {

@@ -3,6 +3,7 @@
 package ru.itmo.usermanagementservice.controller
 
 import jakarta.validation.Valid
+import org.slf4j.LoggerFactory
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
 import org.springframework.validation.annotation.Validated
@@ -20,6 +21,8 @@ import ru.itmo.usermanagementservice.dto.RegisterRequest as RegisterRequest
 class AuthController(
     private val authService: AuthService,
 ) {
+    private val logger: org.slf4j.Logger = LoggerFactory.getLogger(this::class.java)
+
     @PostMapping("/register")
     fun registerUser(
         @Valid @RequestBody registerRequest: RegisterRequest,
@@ -32,6 +35,8 @@ class AuthController(
     fun loginUser(
         @Valid @RequestBody loginRequest: LoginRequest,
     ): ResponseEntity<AuthResponse> {
+        logger.info("Logging in user ${loginRequest.username}")
+
         val token = authService.authenticateUser(loginRequest.username, loginRequest.password)
         return ResponseEntity.ok(AuthResponse(token = token, username = loginRequest.username))
     }

@@ -3,6 +3,12 @@
 # Завершаем скрипт при любой ошибке
 set -e
 
+# User Management Service
+echo "Building ApiObjects..."
+cd ../ApiObjects
+./gradlew clean build -x test
+./gradlew publishToMavenLocal
+
 # Task Management Service
 echo "Building TaskManagementService..."
 cd ../TaskManagementService
@@ -36,5 +42,10 @@ cd ../CloudConfig
 # API Gateway
 echo "Building ApiGateway..."
 cd ../ApiGateway
+./gradlew clean build -x test
+
+# Eureka Server
+echo "Eureka Server..."
+cd ../EurekaServer
 ./gradlew clean build -x test
 

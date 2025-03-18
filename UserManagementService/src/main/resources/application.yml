@@ -1,11 +1,11 @@
 server:
-  port: ${SERVER_PORT:5001}
+  port: ${SERVER_PORT:5001} # 0 - любой свободный порт
 
 spring:
   application:
     name: user-service
   config:
-    import: configserver:${CLOUD_CONFIG_HOST:http://localhost}:${CLOUD_CONFIG_PORT:5555}
+    import: configserver:${CLOUD_CONFIG_URL:http://localhost:5555}
 
   datasource:
     url: jdbc:postgresql://${APP_POSTGRESQL_HOST:127.0.0.1}:${APP_POSTGRESQL_PORT:5432}/${APP_POSTGRESQL_NAME:users_db}
@@ -33,3 +33,8 @@ spring:
 
 logging:
   config: classpath:${logback:logback-spring.xml}
+
+eureka:
+  client:
+    service-url:
+      defaultZone: ${EUREKA_SERVER:http://localhost:5761/eureka/}

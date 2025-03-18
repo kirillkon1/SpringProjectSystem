@@ -46,3 +46,8 @@ spring:
 
 logging:
   config: classpath:${logback:logback-spring.xml}
+
+eureka:
+  client:
+    service-url:
+      defaultZone: ${EUREKA_SERVER:http://localhost:5761/eureka/}

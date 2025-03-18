@@ -9,15 +9,15 @@ import java.time.LocalDateTime
 @Entity
 @Table(name = "tasks")
 data class Task(
-    val title: String,
-    val description: String? = null,
+    var title: String,
+    var description: String? = null,
     @Enumerated(EnumType.STRING)
-    val status: TaskStatus = TaskStatus.NEW,
+    var status: TaskStatus = TaskStatus.NEW,
     @Enumerated(EnumType.STRING)
-    val priority: TaskPriority = TaskPriority.NORMAL,
-    val assignedTo: Long, // ID пользователя из User Management Service
-    val projectId: Long, // ID проекта из Project Management Service
-    val dueDate: LocalDateTime? = null,
+    var priority: TaskPriority = TaskPriority.NORMAL,
+    var assignedTo: Long, // ID пользователя из User Management Service
+    var projectId: Long, // ID проекта из Project Management Service
+    var dueDate: LocalDateTime? = null,
 ) : BaseEntity()
 
 enum class TaskStatus {

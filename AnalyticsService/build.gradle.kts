@@ -4,6 +4,10 @@ plugins {
     id("org.springframework.boot") version "3.4.1"
     id("io.spring.dependency-management") version "1.1.7"
     kotlin("plugin.jpa") version "1.9.25"
+
+    // Lombok
+    kotlin("plugin.lombok") version "2.1.10"
+    id("io.freefair.lombok") version "8.10"
 }
 
 group = "ru.itmo"
@@ -55,6 +59,12 @@ dependencies {
     implementation("org.springframework.cloud:spring-cloud-starter-config:4.2.0") // Cloud Config
     implementation("org.springframework.retry:spring-retry")
     implementation("org.springframework.boot:spring-boot-starter-aop")
+
+    // Logging
+    implementation("io.github.microutils:kotlin-logging-jvm:2.0.11")
+
+    // Eureka
+    implementation("org.springframework.cloud:spring-cloud-starter-netflix-eureka-client")
 }
 
 dependencyManagement {

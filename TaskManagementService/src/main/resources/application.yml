@@ -32,7 +32,7 @@ spring:
 
   kafka:
     bootstrap-servers:
-      - ${KAFKA_BOOTSTRAP_SERVERS:localhost:9092}
+      - ${KAFKA_URL:localhost:9092}
     consumer:
       group-id: analytics-group
       auto-offset-reset: earliest
@@ -47,4 +47,9 @@ spring:
 
 logging:
   config: classpath:${logback:logback-spring.xml}
+
+eureka:
+  client:
+    service-url:
+      defaultZone: ${EUREKA_SERVER:http://localhost:5761/eureka/}
 

@@ -59,6 +59,9 @@ dependencies {
 
     // Spring for Apache Kafka
     implementation("org.springframework.kafka:spring-kafka")
+
+    // Eureka
+    implementation("org.springframework.cloud:spring-cloud-starter-netflix-eureka-client")
 }
 
 dependencyManagement {

@@ -54,6 +54,9 @@ dependencies {
 
     // Prometheus Metrics
     implementation("io.micrometer:micrometer-registry-prometheus")
+
+    // Eureka
+    implementation("org.springframework.cloud:spring-cloud-starter-netflix-eureka-client")
 }
 
 dependencyManagement {

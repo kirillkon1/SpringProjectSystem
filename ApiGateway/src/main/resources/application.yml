@@ -19,36 +19,36 @@ spring:
       fail-fast: true
     gateway:
       routes:
-        - id: auth-manager
-          uri: ${USER_SERVICE:http://localhost:5001}
+        - id: auth-service
+          uri: ${USER_SERVICE:lb://user-service}
           predicates:
             - Path=/api/auth/**
           filters:
             - LogFilter
 
-        - id: user-manager
-          uri: ${USER_SERVICE:http://localhost:5001}
+        - id: user-service
+          uri: ${USER_SERVICE:lb://user-service}
           predicates:
             - Path=/api/users/**
           filters:
             - LogFilter
 
-        - id: task-manager
-          uri: ${TASK_SERVICE:http://localhost:5002}
+        - id: task-service
+          uri: ${TASK_SERVICE:lb://task-service}
           predicates:
             - Path=/api/tasks/**
           filters:
             - LogFilter
 
-        - id: project-manager
-          uri: ${PROJECT_SERVICE:http://localhost:5003}
+        - id: project-service
+          uri: ${PROJECT_SERVICE:lb://project-service}
           predicates:
             - Path=/api/projects/**
           filters:
             - LogFilter
 
         - id: analytics-service
-          uri: ${ANALYTICS_SERVICE:http://localhost:5004}
+          uri: ${ANALYTICS_SERVICE:lb://analytics-service}
           predicates:
             - Path=/api/analytics/**
           filters:
@@ -68,3 +68,9 @@ spring:
             allowedHeaders:
               - "*"
             allowCredentials: true
+
+eureka:
+  client:
+    service-url:
+      defaultZone: ${EUREKA_SERVER:http://localhost:5761/eureka/}
+
