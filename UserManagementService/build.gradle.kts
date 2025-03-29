@@ -56,6 +56,8 @@ dependencies {
 
     // Eureka
     implementation("org.springframework.cloud:spring-cloud-starter-netflix-eureka-client")
+
+    implementation("org.springframework.security:spring-security-crypto:6.4.4")
 }
 
 dependencyManagement {
